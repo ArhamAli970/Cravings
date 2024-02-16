@@ -1,0 +1,29 @@
+<% layout("layout/boilerplate.ejs") %>
+
+
+    <button id="downloadButton" class="btn btn-primary">Download Excel Sheet</button>
+
+  <script>
+    document.getElementById('downloadButton').addEventListener('click', async () => {
+      try {
+        // Make a request to the server endpoint
+        const response = await fetch('/download-excel');
+        
+        // Check if the request was successful
+        if (response.ok) {
+          // Convert the response to a Blob
+          const blob = await response.blob();
+          
+          // Create a download link and trigger a click to start the download
+          const link = document.createElement('a');
+          link.href = window.URL.createObjectURL(blob);
+          link.download = 'cravings.xlsx';
+          link.click();
+        } else {
+          console.error('Failed to download Excel file');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  </script>
